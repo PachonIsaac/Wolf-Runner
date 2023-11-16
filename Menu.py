@@ -1,3 +1,6 @@
+#WOLF RUNNER 
+# By Maria José Medina -Isaac Pachón Zuleta
+
 import pygame
 import sys
 from pygame.locals import *
@@ -8,6 +11,7 @@ pygame.init()
 screen = pygame.display.set_mode((1000,600))
 pygame.display.set_caption("Wolf-Runner")
 from Assets import *
+
 
 
 
@@ -30,6 +34,9 @@ class Menu:
 
     def run(self):
         while True:
+            #Musica de fondo miestras selecciona
+            MenuSong.play(-1)
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -61,11 +68,18 @@ def main_menu():
     while True:
         selected_game = menu.run()
         if selected_game == "Play":
-            screen.fill((0,0,0)) #Mientras tanto
             pygame.display.update()
-            #Aquí va el llamado al Game.py
+            MenuSong.stop()
+            ForestSong.play(-1)
             final_score = Game()
             print("Puntaje final:", final_score)
+
+        if selected_game == "Score":
+            #Aquí va el llamado al Score.py
+            #Prueba de Socre
+            screen.blit(ScoreMenu, (0, 0))
+            pygame.display.update()
+            pygame.time.wait(5000)
         
         # Salir
         if selected_game == "Exit":
