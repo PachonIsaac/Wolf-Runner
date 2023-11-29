@@ -160,8 +160,6 @@ def main_menu():
             ForestSong.play(-1)
             final_score = Game()
             pygame.display.update()
-            # Send an artificial event
-            pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_x))
             print("Puntaje final:", final_score)
 
             # Guardar el puntaje solo si está entre los 10 mejores sino actualizar el menu
