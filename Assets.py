@@ -5,6 +5,7 @@ pygame.mixer.init()
 current_directory = os.path.dirname(__file__)
 PrincipalMenu           = pygame.image.load(os.path.join(current_directory, "Assets/Background/PrincipalMenu.png" ))
 ScoreMenu               = pygame.image.load(os.path.join(current_directory, "Assets/Background/ScoreMenu.png" ))
+NicknameMenu            = pygame.image.load(os.path.join(current_directory, "Assets/Background/Nickname.png" ))
 Ghost_Fly               = [pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost1.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost2.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost3.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost4.png")).convert_alpha(),pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost5.png")).convert_alpha(),
                            pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost6.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost7.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost8.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost9.png")).convert_alpha(),pygame.image.load(os.path.join(current_directory, "Assets/Ghost/Ghost10.png")).convert_alpha()] 
 Bat_Fly                 = [pygame.image.load(os.path.join(current_directory, "Assets/Bat/Bat1.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Bat/Bat2.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Bat/Bat3.png")).convert_alpha(), pygame.image.load(os.path.join(current_directory, "Assets/Bat/Bat4.png")).convert_alpha(),
@@ -31,3 +32,6 @@ Wolf_Run1               = pygame.image.load(os.path.join(current_directory, "Ass
 #Sound
 MenuSong                = pygame.mixer.Sound(os.path.join(current_directory, "Assets/Sound/heisenburger.mp3"))
 ForestSong              = pygame.mixer.Sound(os.path.join(current_directory, "Assets/Sound/forest.mp3"))
+
+#Font
+pixel_font              = os.path.join(current_directory, "Pixels.ttf")

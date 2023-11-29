@@ -1,0 +1,1 @@
+[{'name': 'IsaacElMasproXD', 'score': 675}, {'name': 'fffdddd', 'score': 288}, {'name': 'Puto', 'score': 286}, {'name': 'Putito', 'score': 162}, {'name': 'zozorrita', 'score': 129}, {'name': 'Isaac1', 'score': 79}, {'name': 'dhfsjhfd', 'score': 41}, {'name': 'Isaac2', 'score': 35}, {'name': '', 'score': 33}, {'name': '', 'score': 33}]
