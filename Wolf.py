@@ -67,7 +67,7 @@ class Wolf:
         if self.step_index >= 12:
             self.step_index = 0
 
-        if userInput[pygame.K_UP] and not self.wolf_jump:
+        if userInput[pygame.K_UP] or userInput[pygame.K_SPACE] and not self.wolf_jump:
             self.wolf_crounch = False
             self.wolf_run = False
             self.wolf_jump = True

@@ -14,6 +14,11 @@ pygame.mixer.init()
 class Obstacle:
     """
     Clase que representa un obstáculo en el juego Wolf Runner.
+    Contiene los metodos
+    - __init__ "Constructor"
+    - update   "Actualiza la posición del obstáculo en el juego"
+    - draw     "Dibuja el obstáculo en la pantalla del juego"
+    
     """
     def __init__(self, image, type):
         """
@@ -45,9 +50,13 @@ class Obstacle:
         """
         screen.blit(self.image[self.type], self.rect)
 
+
 class Ghost(Obstacle):
     """
     Clase que representa un fantasma en el juego Wolf Runner.
+    Tiene los metodos:
+    - __init__ "Constructor"
+    - draw     "Dibuja el fantasma en la pantalla del juego"
     """
     def __init__(self, image):
         """
@@ -76,23 +85,48 @@ class Ghost(Obstacle):
 class TwoGhost(Obstacle):
     """
     Clase que representa dos fantasmas juntos en el juego Wolf Runner.
+    tiene los metodos:
+    - __init__ "Constructor"
+    - update   "Actualiza la posición del conjunto de dos fantasmas en el juego"
+    - draw     "Dibuja los dos fantasmas en la pantalla del juego"
     """
     def __init__(self, image):
         """
         Inicializa una instancia de la clase TwoGhost.
 
         Args:
-            image (list): Lista de imágenes de los dos fantasmas.
+            image (list): Lista de imágenes del conjunto de dos fantasmas.
         """
-        self.type = 0
-        super().__init__(image, self.type)
-        super().__init__(image, self.type)
+        super().__init__(image, 0)
         self.rect.y = 480
         self.index = 0
+
+    def update(self):
+        """
+        Actualiza la posición del conjunto de dos fantasmas en el juego.
+        """
+        self.rect.x -= Game_Speed
+        if self.rect.x < -self.rect.width:
+            Obsta.pop()
+
+    def draw(self, screen):
+        """
+        Dibuja los dos fantasmas en la pantalla del juego.
+
+        Args:
+            screen (pygame.Surface): Superficie de la pantalla del juego.
+        """
+        screen.blit(self.image[0], self.rect)
+        # Ajusta la posición del segundo fantasma a la derecha del primero
+        screen.blit(self.image[0], (self.rect.x + self.rect.width, self.rect.y))
+
 
 class Bat(Obstacle):
     """
     Clase que representa un murciélago en el juego Wolf Runner.
+    Tiene los metodos:
+    - __init__ "Constructor"
+    - draw     "Dibuja el murciélago en la pantalla del juego"
     """
     def __init__(self, image):
         """
@@ -117,6 +151,31 @@ class Bat(Obstacle):
             self.index = 0
         screen.blit(self.image[self.index // 8], self.rect)
         self.index += 1
+
+
+def game_over():
+    """
+    Muestra la pantalla de "Game Over" y realiza acciones después de una colisión.
+    """
+    pygame.mixer.music.stop()  # Detener la música de fondo
+
+    # Copiar la pantalla actual
+    colision_final = Screen.copy()
+    grayscale_image = pygame.Surface((colision_final.get_width(), colision_final.get_height()))
+    
+    for x in range(colision_final.get_width()):
+        for y in range(colision_final.get_height()):
+            color = colision_final.get_at((x, y))
+            grayscale_color = (int(0.299 * color[0] + 0.587 * color[1] + 0.114 * color[2]),) * 3
+            grayscale_image.set_at((x, y), grayscale_color)
+    
+    Screen.blit(grayscale_image, (0, 0))
+    pygame.display.update()
+    GameOverSong.play() 
+    pygame.time.wait(3000)
+   
+
+
 
 def Game():
     """
@@ -184,6 +243,7 @@ def Game():
 
         X_Pos_Bg -= Game_Speed
 
+
     while Run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -201,6 +261,7 @@ def Game():
                 Obsta.append(Ghost(Ghost_Fly))
             elif random.randint(0, 2) == 1:
                 Obsta.append(TwoGhost(Ghost_Fly))
+                print("Two Ghost")
             elif random.randint(0, 2) == 2:
                 Obsta.append(Bat(Bat_Fly))
         
@@ -208,11 +269,12 @@ def Game():
             obstacle.draw(Screen)
             obstacle.update()
             if Player.wolf_rect.colliderect(obstacle.rect):
-                pygame.time.delay(2000)
+                game_over() 
                 Run = False
-
+    
+        
         score()
-        clock.tick(30)
         pygame.display.update()
-
+        clock.tick(30)
+    
     return Points

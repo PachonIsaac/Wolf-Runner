@@ -32,6 +32,7 @@ Wolf_Run1               = pygame.image.load(os.path.join(current_directory, "Ass
 #Sound
 MenuSong                = pygame.mixer.Sound(os.path.join(current_directory, "Assets/Sound/heisenburger.mp3"))
 ForestSong              = pygame.mixer.Sound(os.path.join(current_directory, "Assets/Sound/forest.mp3"))
+GameOverSong            = pygame.mixer.Sound(os.path.join(current_directory, "Assets/Sound/GameOver.mp3"))
 
 #Font
-pixel_font              = os.path.join(current_directory, "Pixels.ttf")
+pixel_font              = os.path.join(current_directory, "Assets/Font/Pixels.ttf")
