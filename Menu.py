@@ -176,6 +176,7 @@ def main_menu():
             else:
                 print("No es uno de los 10 mejores puntajes")
                 pygame.display.update()
+                pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_x))
                 
                 
 
@@ -183,8 +184,6 @@ def main_menu():
 
             print("Puntaje final:", final_score)
             
-            
-
         # Salir
         if selected_game == "Exit":
             pygame.quit()
