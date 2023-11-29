@@ -1,23 +1,38 @@
-#WOLF RUNNER 
-# By Maria José Medina -Isaac Pachón Zuleta
+# WOLF RUNNER
+# By Maria José Medina - Isaac Pachón Zuleta
 
+# Importar librerias
 import pygame
 import sys
 from pygame.locals import *
 from Game import *
 from ScoreMenu import *
 
+# Inicializar pygame
 pygame.init()
-#Crear la ventana
-screen = pygame.display.set_mode((1000,600))
+# Crear la ventana
+screen = pygame.display.set_mode((1000, 600))
 pygame.display.set_caption("Wolf-Runner")
 from Assets import *
 
-
-
-
 class Menu:
+    """
+    Clase que representa el menú principal del juego Wolf Runner.
+    Contiene los metodos:
+    - __init__ "Constructor"
+    - draw_menu "Dibuja el menú en la pantalla"
+    - run "Ejecuta el bucle principal del menú"
+    - show_text_input "Muestra la ventana para ingresar el nombre del jugador"
+    """
+
     def __init__(self, screen, options):
+        """
+        Inicializa la instancia de la clase Menu.
+
+        Args:
+            screen (pygame.Surface): Superficie de la pantalla.
+            options (list): Lista de opciones del menú.
+        """
         self.screen = screen
         self.options = options
         self.selected_option = 0
@@ -29,14 +44,27 @@ class Menu:
         ]
 
     def draw_menu(self):
+        """
+        Dibuja el menú en la pantalla.
+        """
         self.screen.blit(PrincipalMenu, (0, 0))
         for button in self.buttons:
             self.screen.blit(button["image"], button["rect"])
 
     def run(self):
+        """
+        Ejecuta el bucle principal del menú.
+
+        Returns:
+            str: Opción seleccionada ("Play", "Score" o "Exit").
+        """
+        print("Estoy en el menu")
+        pygame.display.update()
         while True:
-            #Musica de fondo miestras selecciona
+            # Música de fondo mientras selecciona
             MenuSong.play(-1)
+            GameOverSong.stop()
+            pygame.display.update()
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -59,10 +87,16 @@ class Menu:
                         self.screen.blit(Scores_Button[1], (175, 500))
                     if 675 <= mouse_pos[0] <= 825 and 500 <= mouse_pos[1] <= 550:
                         self.screen.blit(Exit_Button[1], (675, 500))
-                
+
             pygame.display.update()
-    
+
     def show_text_input(self):
+        """
+        Muestra la ventana para ingresar el nombre del jugador.
+
+        Returns:
+            str: Nombre del jugador ingresado.
+        """
         input_active = True
         input_text = ""
         clock = pygame.time.Clock()
@@ -106,24 +140,31 @@ class Menu:
 
         return input_text
 
-
 def main_menu():
+    """
+    Función principal que ejecuta el menú del juego Wolf Runner.
+    """
     options = ["Score", "Play", "Exit"]
-
     menu = Menu(screen, options)
+    
+
     while True:
         selected_game = menu.run()
+        
         if selected_game == "Score":
             selected_game = Scores_Window()
-            
+
         if selected_game == "Play":
             pygame.display.update()
             MenuSong.stop()
             ForestSong.play(-1)
             final_score = Game()
+            pygame.display.update()
+            # Send an artificial event
+            pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_x))
             print("Puntaje final:", final_score)
 
-            # Guardar el puntaje solo si está entre los 10 mejores
+            # Guardar el puntaje solo si está entre los 10 mejores sino actualizar el menu
             high_scores = read_high_scores()
             if is_high_score(final_score, high_scores):
                 # Solicitar el nombre al jugador
@@ -132,17 +173,30 @@ def main_menu():
                 high_scores.append({"name": player_name, "score": final_score})
                 high_scores.sort(key=lambda x: x["score"], reverse=True)
                 write_high_scores(high_scores)
+            else:
+                print("No es uno de los 10 mejores puntajes")
+                pygame.display.update()
+                
+                
+
+                
 
             print("Puntaje final:", final_score)
-        
+            
+            
+
         # Salir
         if selected_game == "Exit":
             pygame.quit()
             sys.exit()
 
-# ... (código existente)
-
 def read_high_scores():
+    """
+    Lee los puntajes altos desde el archivo.
+
+    Returns:
+        list: Lista de diccionarios con los puntajes altos.
+    """
     try:
         with open("scores.txt", "r") as file:
             content = file.read()
@@ -156,19 +210,30 @@ def read_high_scores():
     return high_scores
 
 def is_high_score(score, high_scores):
-    # Verificar si el puntaje es uno de los 10 mejores
+    """
+    Verifica si un puntaje es uno de los 10 mejores.
+
+    Args:
+        score (int): Puntaje a verificar.
+        high_scores (list): Lista de diccionarios con los puntajes altos.
+
+    Returns:
+        bool: True si el puntaje es uno de los 10 mejores, False en caso contrario.
+    """
     return len(high_scores) < 10 or score > high_scores[-1]["score"]
 
 def write_high_scores(high_scores):
+    """
+    Escribe los puntajes altos en el archivo.
+
+    Args:
+        high_scores (list): Lista de diccionarios con los puntajes altos.
+    """
     # Escribir los 10 mejores puntajes en el archivo
     with open("scores.txt", "w") as file:
         # Ordenar la lista de puntajes antes de escribir en el archivo
         high_scores.sort(key=lambda x: x["score"], reverse=True)
         file.write(repr(high_scores[:10]))
-
-# ... (código existente)
-
-
 
 if __name__ == "__main__":
     main_menu()

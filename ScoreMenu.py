@@ -14,6 +14,13 @@ pygame.mixer.init()
 
 
 def Scores_Window():
+    """
+    Función que muestra la ventana de puntajes altos del juego Wolf Runner.
+
+    Returns:
+        str: "Play" si se presiona el botón de jugar, "Exit" si se presiona el botón de salir.
+    """
+
     Screen.blit(ScoreMenu, (0, 0))
     pygame.display.update()
     scores = read_high_scores()
